@@ -1,0 +1,10 @@
+crewai<1.15
+fastapi
+uvicorn[standard]
+chromadb
+python-dotenv
+groq
+pypdf
+litellm
+streamlit
+pip freeze 
