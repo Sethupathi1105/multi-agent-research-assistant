@@ -14,7 +14,6 @@ N_RESULTS = 5
 SOURCE_NOTE = "All evidence comes from the ingested CrewAI documentation; no independent sources were used."
 MARKETING = re.compile(r"\b(leading|enterprise|production[- ]ready|standard for|scalab\w*)", re.I)
 DOC_SAYS = re.compile(r"documentation (states|describes|says)", re.I)
-CAPABILITY = re.compile(r"\b(allow|allows|support|supports|enable|enables|empower|empowers|provide|provides)\b", re.I)
 
 
 def _norm(s: str) -> str:
@@ -119,8 +118,6 @@ def run_pipeline(question: str) -> dict:
                 if verdict not in ("VERIFIED", "PARTIALLY SUPPORTED", "UNSUPPORTED"):
                     verdict = "UNSUPPORTED"
                 if verdict == "VERIFIED" and MARKETING.search(c["claim"]) and not DOC_SAYS.search(c["claim"]):
-                    verdict = "PARTIALLY SUPPORTED"
-                if verdict == "VERIFIED" and CAPABILITY.search(c["claim"]) and not CAPABILITY.search(c["quote"]):
                     verdict = "PARTIALLY SUPPORTED"
                 c["verdict"], c["reason"] = verdict, v.get("reason", "")
             save("6_claims_checked.json", kept)
